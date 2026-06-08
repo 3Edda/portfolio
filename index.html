@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eugénie Latour — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #111110;
+    --bg2: #161614;
+    --fg: #e8e6e0;
+    --dim: #6b6860;
+    --accent: #e8e6e0;
+    --line: rgba(232,230,224,0.12);
+    --nav-w: 220px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--nav-w);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 36px;
+    border-right: 1px solid var(--line);
+    z-index: 100;
+    background: var(--bg);
+  }
+
+  .nav-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: var(--fg);
+    text-decoration: none;
+    margin-bottom: 6px;
+  }
+
+  .nav-title {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 56px;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .nav-links li a {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links li a::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 1px;
+    background: var(--dim);
+    transition: width 0.3s, background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .nav-links li a:hover,
+  .nav-links li a.active {
+    color: var(--fg);
+  }
+
+  .nav-links li a:hover::before,
+  .nav-links li a.active::before {
+    background: var(--fg);
+    width: 28px;
+  }
+
+  .nav-bottom {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    line-height: 1.8;
+  }
+
+  .nav-bottom a {
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-bottom a:hover { color: var(--fg); }
+
+  /* ── MAIN ── */
+  main {
+    margin-left: var(--nav-w);
+    flex: 1;
+    min-height: 100vh;
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    min-height: 100vh;
+    padding: 80px 72px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 64px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    min-height: 100vh;
+    /* nav is hidden on hero — full bleed */
+  }
+
+  .hero-cover-img {
+    position: absolute;
+    inset: 0;
+    /* Your cover image: place hero-cover.jpg in the same folder */
+    background: url('hero-cover.jpg') center/cover no-repeat;
+    /* Fallback animated texture if no image */
+  }
+
+  /* Fallback wavy texture (visible when no image loaded) */
+  .hero-cover-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255,255,255,0.03) 2px,
+        rgba(255,255,255,0.03) 3px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 8px,
+        rgba(255,255,255,0.015) 8px,
+        rgba(255,255,255,0.015) 9px
+      );
+    animation: wavePulse 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes wavePulse {
+    0%   { opacity: 0.6; transform: scaleY(1); }
+    100% { opacity: 1;   transform: scaleY(1.02); }
+  }
+
+  /* Subtle vignette — keeps text readable */
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 120% 100% at 50% 50%,
+      transparent 30%,
+      rgba(10,10,9,0.35) 70%,
+      rgba(10,10,9,0.7) 100%);
+    z-index: 1;
+  }
+
+  /* Name — top left, small */
+  .hero-name-top {
+    position: absolute;
+    top: 48px;
+    left: 56px;
+    z-index: 2;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    color: #fff;
+  }
+
+  /* PORTFOLIO — giant, bottom left */
+  .hero-title-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    line-height: 0.82;
+    padding: 0 48px 28px 48px;
+  }
+
+  .hero-title-bottom span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(100px, 15vw, 220px);
+    letter-spacing: 0.01em;
+    color: #fff;
+    display: block;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    min-height: auto;
+    padding: 80px 72px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 28px;
+  }
+
+  .about-text p {
+    font-size: 14px;
+    line-height: 1.85;
+    color: rgba(232,230,224,0.65);
+    margin-bottom: 16px;
+  }
+
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .skill-tag {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    color: var(--dim);
+  }
+
+  /* ── PROJECT LAYOUT ── */
+  .project {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 64px;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+
+  .project:last-child { margin-bottom: 0; }
+
+  .project.reverse {
+    grid-template-columns: 380px 1fr;
+  }
+
+  .project.reverse .project-media { order: -1; }
+
+  .project-media {
+    position: relative;
+    background: var(--bg2);
+    overflow: hidden;
+  }
+
+  .project-media img {
+    width: 100%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .project-media:hover img { transform: scale(1.03); }
+
+  .project-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .project-info .divider {
+    width: 32px;
+    height: 1px;
+    background: var(--dim);
+    margin-bottom: 20px;
+  }
+
+  .project-info p {
+    font-size: 13px;
+    line-height: 1.85;
+    color: rgba(232,230,224,0.55);
+    margin-bottom: 8px;
+  }
+
+  .project-info p strong {
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(232,230,224,0.8);
+  }
+
+  /* ── GALLERY GRID ── */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  .gallery-item {
+    background: var(--bg2);
+    overflow: hidden;
+    aspect-ratio: 1;
+    position: relative;
+  }
+
+  .gallery-item.wide {
+    grid-column: span 2;
+    aspect-ratio: 2/1;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+    opacity: 0.9;
+  }
+
+  .gallery-item:hover img { transform: scale(1.04); opacity: 1; }
+
+  /* ── VIDEO BLOCK ── */
+  .video-block {
+    position: relative;
+    background: var(--bg2);
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .video-block video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border: 1px dashed rgba(255,255,255,0.12);
+    background: var(--bg2);
+  }
+
+  .video-placeholder .play-icon {
+    width: 56px;
+    height: 56px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s;
+  }
+
+  .video-placeholder:hover .play-icon {
+    border-color: var(--fg);
+  }
+
+  .video-placeholder .play-icon svg {
+    margin-left: 4px;
+  }
+
+  .video-filename {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .video-note {
+    font-size: 11px;
+    color: rgba(107,104,96,0.6);
+    font-style: italic;
+  }
+
+  /* ── WINE LABELS GRID ── */
+  .labels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.4fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .labels-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    grid-column: 1 / 4;
+  }
+
+  .label-img {
+    background: var(--bg2);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .label-img img {
+    width: 100%;
+    display: block;
+  }
+
+  .labels-bottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    grid-column: 1 / 4;
+    margin-top: 0;
+  }
+
+  .labels-photo {
+    grid-column: 4;
+    grid-row: 1 / 3;
+    background: var(--bg2);
+    overflow: hidden;
+  }
+
+  .labels-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--line); }
+
+  /* ── IMAGE PLACEHOLDER ── */
+  .img-placeholder {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px dashed rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    min-height: 280px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-name">Eugénie Latour</a>
+  <p class="nav-title">Artiste 3D &amp; Graphiste</p>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#packshot">Packshot</a></li>
+    <li><a href="#print">Print</a></li>
+    <li><a href="#photorealisme">Photoréalisme</a></li>
+    <li><a href="#abstract">Abstrait</a></li>
+    <li><a href="#video">Vidéo</a></li>
+    <li><a href="#lamp">Lampe 3D</a></li>
+  </ul>
+  <div class="nav-bottom">
+    <a href="mailto:eugenie.latour@email.com">eugenie.latour@email.com</a><br>
+    <a href="https://www.behance.net/" target="_blank">Behance</a> &nbsp;·&nbsp;
+    <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HERO — reprend fidèlement la couverture PDF -->
+  <section id="hero">
+    <!-- Image de fond : place "hero-cover.jpg" dans le même dossier -->
+    <div class="hero-cover-img"></div>
+    <div class="hero-vignette"></div>
+    <!-- Nom en haut à gauche -->
+    <p class="hero-name-top">Eugénie Latour</p>
+    <!-- PORTFOLIO en grand en bas à gauche -->
+    <div class="hero-title-bottom">
+      <span>PORTFOLIO</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">À propos</div>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <h2>Artiste 3D<br>&amp; Graphiste</h2>
+        <p>Formée aux effets spéciaux numériques, j'explore Blender et Photoshop comme outils d'expression autant que de production, pour des projets publicitaires, print ou purement artistiques.</p>
+        <p>Packshots photoréalistes, sculptures abstraites, univers en mouvement — je travaille à la frontière entre art et production visuelle.</p>
+        <div class="skills-list">
+          <span class="skill-tag">Blender</span>
+          <span class="skill-tag">Photoshop</span>
+          <span class="skill-tag">Illustrator</span>
+          <span class="skill-tag">3DS Max</span>
+          <span class="skill-tag">Zbrush</span>
+          <span class="skill-tag">TouchDesigner</span>
+          <span class="skill-tag">Premiere Pro</span>
+          <span class="skill-tag">Arnold</span>
+        </div>
+      </div>
+      <div>
+        <!-- Remplace par une vraie photo si tu en as une -->
+        <div class="img-placeholder" style="aspect-ratio:4/5;">Portrait / Photo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKSHOT -->
+  <section id="packshot">
+    <div class="section-label">Packshot</div>
+    <div class="project fade-in">
+      <div class="project-media">
+        <!-- Remplace src par le chemin de ton image -->
+        <div class="img-placeholder" style="aspect-ratio:16/9;">bombay-sapphire.jpg</div>
+      </div>
+      <div class="project-info">
+        <h3>Bombay Sapphire</h3>
+        <div class="divider"></div>
+        <p>Rendu photoréaliste d'un packshot pour du gin.</p>
+        <p>Modélisation, shading et lighting dans <strong>3DS Max</strong>.</p>
+        <p>Rendu dans <strong>Arnold</strong>.</p>
+        <p>Retouches et étiquette dans <strong>Photoshop</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINT -->
+  <section id="print">
+    <div class="section-label">Print</div>
+    <div class="fade-in">
+      <div class="project" style="grid-template-columns:1fr 340px; margin-bottom:0;">
+        <div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:10px;">
+            <div class="label-img"><div class="img-placeholder" style="aspect-ratio:3/4;">arboutin-label.jpg</div></div>
+            <div class="label-img"><div class="img-placeholder" style="aspect-ratio:3/4;">mira-label.jpg</div></div>
+            <div class="label-img"><div class="img-placeholder" style="aspect-ratio:3/4;">abioun-label.jpg</div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+            <div class="label-img"><div class="img-placeholder" style="aspect-ratio:3/4;">arboutin-back.jpg</div></div>
+            <div class="label-img"><div class="img-placeholder" style="aspect-ratio:3/4;">mira-back.jpg</div></div>
+            <div class="label-img"><div class="img-placeholder" style="aspect-ratio:3/4;">abioun-back.jpg</div></div>
+          </div>
+        </div>
+        <div class="project-info" style="display:flex;flex-direction:column;justify-content:center;">
+          <h3>Domaine de Saqueboeu</h3>
+          <div class="divider"></div>
+          <p>Création d'étiquettes et contre-étiquettes abstraites pour un vignoble en biodynamie.</p>
+          <p><strong>Photoshop</strong> et <strong>Illustrator</strong></p>
+          <p>Rendus dans <strong>Blender</strong> pour les posts Instagram.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTOREALISME -->
+  <section id="photorealisme">
+    <div class="section-label">Photoréalisme</div>
+    <div class="project reverse fade-in">
+      <div class="project-info">
+        <h3>Le Cabinet de Curiosité</h3>
+        <div class="divider"></div>
+        <p>Rendu photoréaliste d'un bocal rempli de formol dans <strong>Blender</strong>.</p>
+        <p>Travail des yeux dans <strong>Zbrush</strong>.</p>
+      </div>
+      <div class="project-media">
+        <div class="img-placeholder" style="aspect-ratio:4/3;">cabinet-curiosite.jpg</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABSTRACT -->
+  <section id="abstract">
+    <div class="section-label">Abstrait</div>
+
+    <!-- Ferrofluid -->
+    <div class="fade-in" style="margin-bottom:80px;">
+      <p class="section-title">Ferrofluid — Snake Bones</p>
+      <div class="gallery">
+        <div class="gallery-item wide">
+          <div class="img-placeholder" style="height:100%;">ferrofluid-wide.jpg</div>
+        </div>
+        <div class="gallery-item">
+          <div class="img-placeholder" style="height:100%;">ferrofluid-detail.jpg</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--dim);margin-top:16px;font-style:italic;">Exploration de formes organiques dans Blender</p>
+    </div>
+
+    <!-- Simulation -->
+    <div class="fade-in" style="margin-bottom:80px;">
+      <p class="section-title">Simulation</p>
+      <div class="gallery">
+        <div class="gallery-item"><div class="img-placeholder" style="height:100%;">sim-pink-text.jpg</div></div>
+        <div class="gallery-item"><div class="img-placeholder" style="height:100%;">sim-red-wave.jpg</div></div>
+        <div class="gallery-item"><div class="img-placeholder" style="height:100%;">sim-chrome.jpg</div></div>
+        <div class="gallery-item wide"><div class="img-placeholder" style="height:100%;">sim-iridescent.jpg</div></div>
+      </div>
+    </div>
+
+    <!-- Spheres -->
+    <div class="fade-in">
+      <p class="section-title">Sphères</p>
+      <div class="gallery">
+        <div class="gallery-item"><div class="img-placeholder" style="height:100%;">sphere-pink.jpg</div></div>
+        <div class="gallery-item"><div class="img-placeholder" style="height:100%;">sphere-chrome-blue.jpg</div></div>
+        <div class="gallery-item"><div class="img-placeholder" style="height:100%;">sphere-coral.jpg</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="video">
+    <div class="section-label">Vidéo</div>
+    <div class="fade-in">
+
+      <!-- Vidéo 1 -->
+      <div style="margin-bottom:64px;">
+        <div class="video-block" onclick="toggleVideo(this)">
+          <video preload="none" loop>
+            <source src="video-abstraits.mp4" type="video/mp4">
+          </video>
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                <path d="M1 1L15 9L1 17V1Z" stroke="white" stroke-width="1.2" fill="none"/>
+              </svg>
+            </div>
+            <span class="video-filename">video-abstraits.mp4</span>
+            <span class="video-note">Glisse ton fichier dans le même dossier que le HTML</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.02em;">Sculptures Abstraites</h3>
+          <span style="font-size:11px;color:var(--dim);letter-spacing:0.1em;">BLENDER · PREMIERE PRO</span>
+        </div>
+      </div>
+
+      <!-- Vidéo 2 -->
+      <div style="margin-bottom:64px;">
+        <div class="video-block" onclick="toggleVideo(this)">
+          <video preload="none" loop>
+            <source src="video-touchdesigner.mp4" type="video/mp4">
+          </video>
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                <path d="M1 1L15 9L1 17V1Z" stroke="white" stroke-width="1.2" fill="none"/>
+              </svg>
+            </div>
+            <span class="video-filename">video-touchdesigner.mp4</span>
+            <span class="video-note">Glisse ton fichier dans le même dossier que le HTML</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.02em;">VFX Gradients &amp; Glitch</h3>
+          <span style="font-size:11px;color:var(--dim);letter-spacing:0.1em;">TOUCHDESIGNER · PREMIERE PRO</span>
+        </div>
+      </div>
+
+      <!-- Vidéo 3 — ajoute autant que tu veux en dupliquant ce bloc -->
+      <div>
+        <div class="video-block" onclick="toggleVideo(this)">
+          <video preload="none" loop>
+            <source src="video-lampe.mp4" type="video/mp4">
+          </video>
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+                <path d="M1 1L15 9L1 17V1Z" stroke="white" stroke-width="1.2" fill="none"/>
+              </svg>
+            </div>
+            <span class="video-filename">video-lampe.mp4</span>
+            <span class="video-note">Glisse ton fichier dans le même dossier que le HTML</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.02em;">Lampe Impression 3D</h3>
+          <span style="font-size:11px;color:var(--dim);letter-spacing:0.1em;">BLENDER · CREALITY</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LAMP -->
+  <section id="lamp">
+    <div class="section-label">Projet Annexe</div>
+    <div class="project fade-in">
+      <div class="project-media">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div class="img-placeholder" style="aspect-ratio:3/4;">lamp-blender.jpg</div>
+          <div class="img-placeholder" style="aspect-ratio:3/4;">lamp-print.jpg</div>
+          <div class="img-placeholder" style="aspect-ratio:3/4;">lamp-light.jpg</div>
+        </div>
+      </div>
+      <div class="project-info">
+        <h3>Lampe Impression 3D</h3>
+        <div class="divider"></div>
+        <p>Remplacement d'un ancien abat-jour.</p>
+        <p>Modélisation dans <strong>Blender</strong>.</p>
+        <p>Paramétrage dans <strong>Ultimaker Cura</strong>.</p>
+        <p>Impression en PETG transparent.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -40% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// Fade in on scroll
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+fadeEls.forEach(el => fadeObserver.observe(el));
+
+// Video play/pause on click
+function toggleVideo(block) {
+  const video = block.querySelector('video');
+  const placeholder = block.querySelector('.video-placeholder');
+
+  // Check if the file actually exists by checking readyState
+  video.load();
+
+  video.addEventListener('canplay', function handler() {
+    placeholder.style.display = 'none';
+    video.style.opacity = '1';
+    video.play();
+    video.removeEventListener('canplay', handler);
+  });
+
+  video.addEventListener('error', function handler() {
+    // File not found — placeholder stays visible
+    video.removeEventListener('error', handler);
+  });
+}
+</script>
+</body>
+</html>
